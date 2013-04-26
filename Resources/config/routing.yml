@@ -1,0 +1,7 @@
+kitpages_simpleedm_document_documentlist:
+    pattern:  /list
+    defaults: { _controller: KitpagesSimpleEdmBundle:Document:documentList }
+
+kitpages_simpleedm_document_documentadd:
+    pattern:  /add
+    defaults: { _controller: KitpagesSimpleEdmBundle:Document:documentAdd }
