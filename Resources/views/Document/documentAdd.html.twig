@@ -1,4 +1,19 @@
 {% extends "KitpagesSimpleEdmBundle::layout.html.twig" %}
 
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock javascripts %}
+
 {% block kitpages_simpleedm_content %}
+<h1>Ajouter un document</h1>
+<form class="standard-form" action="{{ path("kitpages_simpleedm_document_documentadd") }}" {{ form_enctype(form) }} method="POST">
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" value="Enregistrer" />
+    </div>
+</form>
 {% endblock kitpages_simpleedm_content %}

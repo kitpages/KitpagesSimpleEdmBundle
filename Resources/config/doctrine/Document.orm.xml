@@ -12,8 +12,9 @@
 
         <field name="reference" column="reference" type="string" unique="true" nullable="false" length="250"/>
         <field name="title" column="title" type="string" length="250"/>
-        <field name="description" column="description" type="text" />
-        <field name="isActive" column="isActive" type="boolean" />
+        <field name="description" column="description" type="text"  nullable="true" />
+        <field name="isActive" column="isActive" type="boolean"  nullable="true" />
+        <field name="fileOriginalName" column="file_original_name" type="string" nullable="true"  />
 
         <field name="createdAt" type="datetime">
             <gedmo:timestampable on="create"/>
@@ -23,13 +24,9 @@
         </field>
 
         <lifecycle-callbacks>
-            <lifecycle-callback type="prePersist" method="prePersist"/>
-            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+            <lifecycle-callback type="prePersist" method="preUpload"/>
+            <lifecycle-callback type="preUpdate" method="preUpload"/>
         </lifecycle-callbacks>
-
-        <one-to-one field="file" target-entity="Kitpages\FileBundle\Entity\File" inversed-by="document">
-            <join-column name="file_id" referenced-column-name="id" on-update="CASCADE" on-delete="CASCADE"/>
-        </one-to-one>
 
     </entity>
 

@@ -1,0 +1,20 @@
+{% extends "KitpagesSimpleEdmBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock javascripts %}
+
+{% block kitpages_simpleedm_content %}
+<h1>Editer un document</h1>
+<form class="standard-form" {{ form_enctype(form) }} method="POST">
+    {{ form_widget(form) }}
+    <a href="{{ path("kitpages_simpleedm_document_renderfile", {"id": document.id}) }}" >download</a>
+    <div>
+        <input type="submit" value="Enregistrer" />
+    </div>
+</form>
+{% endblock kitpages_simpleedm_content %}

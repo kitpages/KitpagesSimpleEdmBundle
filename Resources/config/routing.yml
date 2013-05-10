@@ -5,3 +5,27 @@ kitpages_simpleedm_document_documentlist:
 kitpages_simpleedm_document_documentadd:
     pattern:  /add
     defaults: { _controller: KitpagesSimpleEdmBundle:Document:documentAdd }
+
+kitpages_simpleedm_document_documentedit:
+    pattern:  /edit/{id}
+    defaults: { _controller: KitpagesSimpleEdmBundle:Document:documentEdit }
+    requirements:
+        id: \d+
+
+kitpages_simpleedm_document_documentdelete:
+    pattern:  /delete/{id}
+    defaults: { _controller: KitpagesSimpleEdmBundle:Document:documentDelete }
+    requirements:
+        id: \d+
+
+kitpages_simpleedm_document_documentdisabled:
+    pattern:  /disabled/{id}
+    defaults: { _controller: KitpagesSimpleEdmBundle:Document:documentDisabled }
+    requirements:
+        id: \d+
+
+kitpages_simpleedm_document_renderfile:
+    pattern:  /render/{id}
+    defaults: { _controller: KitpagesSimpleEdmBundle:Document:renderFile }
+    requirements:
+        id: \d+

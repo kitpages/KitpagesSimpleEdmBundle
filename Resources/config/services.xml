@@ -4,17 +4,32 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="kitpages_simple_ged.example.class">Kitpages\SimpleGedBundle\Example</parameter>
+        <parameter key="kitpages_simpleedm.doctrineListener.class">Kitpages\SimpleEdmBundle\EventListener\DocumentListener</parameter>
+        <parameter key="kitpages_simpleedm.tmpdir">%kernel.root_dir%/data/tmp</parameter>
     </parameters>
 
     <services>
-        <service id="kitpages_simple_ged.example" class="%kitpages_simple_ged.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="kitpages_simpleedm.document.form.handler" class="Kitpages\SimpleEdmBundle\Form\DocumentFormHandler">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="request" strict="false" />
         </service>
+        <service id="kitpages_simpleedm.documentListener" class="Kitpages\SimpleEdmBundle\EventListener\DocumentListener">
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="kitpages_file_system.file_system.kitpagessimpleedm"/>
+            <argument>%kitpages_simpleedm.tmpdir%</argument>
+            <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="postUpdate" />
+            <tag name="doctrine.event_listener" event="preRemove" />
+        </service>
+        <!--
+        <service id="kitpages_simpleedm.document.manager" class="Kitpages\SimpleEdmBundle\Service\DocumentManager">
+            <argument type="service" id="doctrine" />
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="router" />
+            <argument type="service" id="kitpages_file_system.file_system.kitpagessimpleedm"/>
+        </service>-->
     </services>
-    -->
+
 </container>

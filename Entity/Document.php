@@ -1,25 +1,52 @@
 <?php
 namespace Kitpages\SimpleEdmBundle\Entity;
 
+use Symfony\Component\HttpFoundation\File\File;
+
 class Document
 {
-    protected $id;
 
-    protected $title;
-
-    protected $reference;
-
-    protected $description;
-
-    protected $createdAt;
-
-    protected $updatedAt;
-
+    private $file;
 
     /**
-     * @var \Kitpages\FileBundle\Entity\File
+     * @var string
      */
-    private $file;
+    private $reference;
+
+    /**
+     * @var string
+     */
+    private $title;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var boolean
+     */
+    private $isActive;
+
+    /**
+     * @var string
+     */
+    private $filePath;
+
+    /**
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
+     * @var integer
+     */
+    private $id;
 
 
     /**
@@ -92,6 +119,29 @@ class Document
     }
 
     /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Document
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -147,69 +197,64 @@ class Document
         return $this->id;
     }
 
-    /**
-     * Set file
-     *
-     * @param \Kitpages\FileBundle\Entity\File $file
-     * @return Document
-     */
-    public function setFile(\Kitpages\FileBundle\Entity\File $file = null)
-    {
-        $this->file = $file;
-    
-        return $this;
-    }
 
-    /**
-     * Get file
-     *
-     * @return \Kitpages\FileBundle\Entity\File 
-     */
-    public function getFile()
-    {
+    public function getFile() {
         return $this->file;
     }
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist()
-    {
-        // Add your code here
+
+    public function setFile(File $file = null) {
+        $this->file = $file;
+    }
+
+    public function getFilePath() {
+        $idString = (string) $this->getId();
+        if (strlen($idString)== 1) {
+            $idString = '0'.$idString;
+        }
+        $dir = substr($idString, 0, 2);
+        return $dir.'/'.$this->getId();
     }
 
     /**
-     * @ORM\PreUpdate
+     * @var string
      */
-    public function preUpdate()
-    {
-        // Add your code here
-    }
-    /**
-     * @var boolean
-     */
-    private $isActive;
+    private $fileOriginalName;
 
 
     /**
-     * Set isActive
+     * Set fileOriginalName
      *
-     * @param boolean $isActive
+     * @param string $fileOriginalName
      * @return Document
      */
-    public function setIsActive($isActive)
+    public function setFileOriginalName($fileOriginalName)
     {
-        $this->isActive = $isActive;
+        $this->fileOriginalName = $fileOriginalName;
     
         return $this;
     }
 
     /**
-     * Get isActive
+     * Get fileOriginalName
      *
-     * @return boolean 
+     * @return string 
      */
-    public function getIsActive()
+    public function getFileOriginalName()
     {
-        return $this->isActive;
+        return $this->fileOriginalName;
+    }
+
+    public function preUpload()
+    {
+        $file = $this->getFile();
+        if ($file != null) {
+            $this->setFileOriginalName($file->getClientOriginalName());
+        }
+    }
+
+    public function disabled()
+    {
+        $this->setReference($this->getReference().'-disabled-'.$this->getId());
+        $this->setIsActive(false);
     }
 }

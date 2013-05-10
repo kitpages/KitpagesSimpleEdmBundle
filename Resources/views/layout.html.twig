@@ -1,5 +1,13 @@
 {% extends '::base.html.twig' %}
 
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock javascripts %}
+
 {% block body %}
     {% for type, messages in app.session.flashbag.all() %}
         {% for message in messages %}
