@@ -9,13 +9,16 @@ use Kitpages\DataGridBundle\Model\GridConfig;
 use Kitpages\DataGridBundle\Model\Field;
 use Kitpages\FileSystemBundle\Model\AdapterFile;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DocumentController extends Controller
 {
 
     public function documentAddAction()
     {
-
+        if (false === $this->get('security.context')->isGranted('ROLE_SIMPLEEDM_WRITER')) {
+            throw new AccessDeniedException();
+        }
         $entity = new Document();
 
         $documentForm = new DocumentFormType();
@@ -35,7 +38,9 @@ class DocumentController extends Controller
 
     public function documentEditAction($id)
     {
-
+        if (false === $this->get('security.context')->isGranted('ROLE_SIMPLEEDM_WRITER')) {
+            throw new AccessDeniedException();
+        }
         $om = $this->getDoctrine()->getManager();
         $entity = $om->getRepository('KitpagesSimpleEdmBundle:Document')->find($id);
 
@@ -57,7 +62,9 @@ class DocumentController extends Controller
 
     public function documentListAction()
     {
-
+        if (false === $this->get('security.context')->isGranted('ROLE_SIMPLEEDM_READER')) {
+            throw new AccessDeniedException();
+        }
         // create query builder
         $om = $this->get('doctrine')->getManager();
         $queryBuilder = $om->createQueryBuilder()
@@ -92,6 +99,9 @@ class DocumentController extends Controller
 
     public function documentDeleteAction($id)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_SIMPLEEDM_WRITER')) {
+            throw new AccessDeniedException();
+        }
         $om = $this->get('doctrine')->getManager();
         $document = $om->getRepository('KitpagesSimpleEdmBundle:Document')->find($id);
         $om->remove($document);
@@ -104,6 +114,9 @@ class DocumentController extends Controller
 
     public function documentDisabledAction($id)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_SIMPLEEDM_WRITER')) {
+            throw new AccessDeniedException();
+        }
         $om = $this->get('doctrine')->getManager();
         $document = $om->getRepository('KitpagesSimpleEdmBundle:Document')->find($id);
         $document->disabled();
@@ -116,6 +129,9 @@ class DocumentController extends Controller
     }
 
     public function renderFileAction($id){
+        if (false === $this->get('security.context')->isGranted('ROLE_SIMPLEEDM_READER')) {
+            throw new AccessDeniedException();
+        }
         ini_set('memory_limit', '512M');
         if (!is_null($id)) {
             $om = $this->getDoctrine()->getManager();

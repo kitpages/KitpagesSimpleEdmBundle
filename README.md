@@ -34,3 +34,8 @@ kitpages_file_system:
                 directory_public: %kernel.root_dir%/../web
                 directory_private: %kernel.root_dir%
                 base_url: %base_url%
+
+* you should add something like that in your security.yml :
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_SIMPLEEDM_WRITER]
+        ROLE_SIMPLEEDM_WRITER: ROLE_SIMPLEEDM_READER
