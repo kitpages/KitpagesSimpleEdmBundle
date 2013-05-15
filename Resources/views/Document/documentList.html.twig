@@ -9,36 +9,6 @@
             <div class="app-project-list-default">
                 <a href="{{ path('kitpages_simpleedm_document_documentadd' ) }}">{{ "Create a document" | trans }}</a><br /><br />
                 {% embed 'KitpagesDataGridBundle:Grid:grid.html.twig' with {'grid': grid} %}
-                    {% block kit_grid_filter %}
-                    {% endblock %}
-
-                    {% block kit_grid_thead %}
-                        <thead>
-                        <tr>
-                            <th colspan="50" class="kit-grid-thead-filter">
-                                <form action="{{ grid.requestUri }}" id="{{grid.filterFormName}}_form" method="GET">
-                                    <label for="{{grid.filterFormName}}">{{ "Search" | trans }}</label>
-                                    <input type="text" name="{{grid.filterFormName}}" id="{{grid.filterFormName}}" size="10" value="{{ grid.filterValue }}"/>
-                                    <button type="submit" class="btn-standard">{{ 'Search'|trans() }}</button>
-                                    <a href="{{ grid.requestUri }}" id="{{grid.filterFormName}}_reset_button">Reset</a>
-                                </form>
-                            </th>
-                        </tr>
-                        <tr class="app-project-list-default-space">
-                            <th colspan="50">
-                            </th>
-                        </tr>
-                        <tr>
-                            {% for field in grid.gridConfig.fieldList %}
-                                {% if field.visible %}
-                                    <th>{{ field.label | trans }}</th>
-                                {% endif %}
-                            {% endfor %}
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                    {% endblock %}
-
                     {% block kit_grid_thead_column %}
                         <th>Action</th>
                     {% endblock %}

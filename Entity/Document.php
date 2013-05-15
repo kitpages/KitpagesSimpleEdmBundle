@@ -248,6 +248,7 @@ class Document
     {
         $file = $this->getFile();
         if ($file != null) {
+            $this->setMimeType($file->getMimeType());
             $this->setFileOriginalName($file->getClientOriginalName());
         }
     }
@@ -256,5 +257,33 @@ class Document
     {
         $this->setReference($this->getReference().'-disabled-'.$this->getId());
         $this->setIsActive(false);
+    }
+    /**
+     * @var string
+     */
+    private $mimeType;
+
+
+    /**
+     * Set mimeType
+     *
+     * @param string $mimeType
+     * @return Document
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->mimeType = $mimeType;
+    
+        return $this;
+    }
+
+    /**
+     * Get mimeType
+     *
+     * @return string 
+     */
+    public function getMimeType()
+    {
+        return $this->mimeType;
     }
 }

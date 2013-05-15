@@ -138,7 +138,7 @@ class DocumentController extends Controller
             $document = $om->getRepository('KitpagesSimpleEdmBundle:Document')->find($id);
             $fileSystem = $this->get('kitpages_simpleedm.documentListener')->getFileSystem();
             if ($document != null) {
-                $file = new AdapterFile($document->getFilePath());
+                $file = new AdapterFile($document->getFilePath(), true, $document->getMimeType());
                 if ($fileSystem->isFile($file)) {
                     $fileSystem->sendFileToBrowser(
                         $file,

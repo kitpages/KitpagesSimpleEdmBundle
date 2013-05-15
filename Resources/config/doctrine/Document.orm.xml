@@ -15,7 +15,7 @@
         <field name="description" column="description" type="text"  nullable="true" />
         <field name="isActive" column="isActive" type="boolean"  nullable="true" />
         <field name="fileOriginalName" column="file_original_name" type="string" nullable="true"  />
-
+        <field name="mimeType" column="mime_type" type="string" length="250" nullable="true" />
         <field name="createdAt" type="datetime">
             <gedmo:timestampable on="create"/>
         </field>
