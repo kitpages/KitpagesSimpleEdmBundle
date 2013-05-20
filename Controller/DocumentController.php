@@ -10,6 +10,8 @@ use Kitpages\DataGridBundle\Model\Field;
 use Kitpages\FileSystemBundle\Model\AdapterFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Kitpages\SimpleEdmBundle\Event\DocumentEvent;
+use Kitpages\SimpleEdmBundle\KitpagesSimpleEdmEvents;
 
 class DocumentController extends Controller
 {
@@ -129,6 +131,7 @@ class DocumentController extends Controller
     }
 
     public function renderFileAction($id){
+
         if (false === $this->get('security.context')->isGranted('ROLE_SIMPLEEDM_READER')) {
             throw new AccessDeniedException();
         }
@@ -136,16 +139,28 @@ class DocumentController extends Controller
         if (!is_null($id)) {
             $om = $this->getDoctrine()->getManager();
             $document = $om->getRepository('KitpagesSimpleEdmBundle:Document')->find($id);
-            $fileSystem = $this->get('kitpages_simpleedm.documentListener')->getFileSystem();
-            if ($document != null) {
-                $file = new AdapterFile($document->getFilePath(), true, $document->getMimeType());
-                if ($fileSystem->isFile($file)) {
-                    $fileSystem->sendFileToBrowser(
-                        $file,
-                        $document->getFileOriginalName()
-                    );
+
+            // throw on event
+            $event = new DocumentEvent();
+            $event->setDocument($document);
+            $this->get('event_dispatcher')->dispatch(KitpagesSimpleEdmEvents::onSendFileToBrowser, $event);
+
+            // preventable action
+            if (!$event->isDefaultPrevented()) {
+                $fileSystem = $this->get('kitpages_simpleedm.documentListener')->getFileSystem();
+                if ($document != null) {
+                    $file = new AdapterFile($document->getFilePath(), true, $document->getMimeType());
+                    if ($fileSystem->isFile($file)) {
+                        $fileSystem->sendFileToBrowser(
+                            $file,
+                            $document->getFileOriginalName()
+                        );
+                    }
                 }
             }
+            // throw after event
+            $this->get('event_dispatcher')->dispatch(KitpagesSimpleEdmEvents::afterSendFileToBrowser, $event);
+
         }
         return new Response(null);
     }
