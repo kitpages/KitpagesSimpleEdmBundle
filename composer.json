@@ -17,7 +17,7 @@
         "doctrine/orm": "*",
         "twig/twig": ">=1.8.0",
         "kitpages/data-grid-bundle": "*",
-        "kitpages/file-system-bundle": "2.1.*"
+        "kitpages/file-system-bundle": "dev-master"
     },
     "require-dev": {
         "twig/twig": ">=1.8.0",
@@ -25,7 +25,7 @@
         "doctrine/orm": "*",
         "beberlei/DoctrineExtensions": "dev-master",
         "kitpages/data-grid-bundle": "*",
-        "kitpages/file-system-bundle": "2.1.*"
+        "kitpages/file-system-bundle": "dev-master"
     },
     "autoload": {
         "psr-0": { "Kitpages\\SimpleEdmBundle": "" }
