@@ -77,6 +77,7 @@ class DocumentController extends Controller
             ;
         $gridConfig = new GridConfig();
         $gridConfig->setCountFieldName("document.id");
+        $gridConfig->addField(new Field("document.reference", array("label" => "Reference", "filterable"=>true)));
         $gridConfig->addField(new Field("document.title", array("label" => "Title", "filterable"=>true)));
         $self = $this;
         $gridConfig->addField(
